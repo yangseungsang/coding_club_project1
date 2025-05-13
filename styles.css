@@ -8,33 +8,61 @@ body {
   font-family: 'Noto Sans KR', sans-serif;
   background-color: #f5f5f5;
   color: #333;
+  width: 480px;
+  overflow-x: hidden;
 }
 
 .container {
-  width: 480px;
+  width: 100%;
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 16px;
 }
 
-h1 {
-  font-size: 32px;
-  text-align: center;
+/* 헤더 컨테이너 */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.header-container h1 {
+  margin: 0;
+  font-size: 22px;
+  text-align: left;
   color: #2c3e50;
   position: relative;
   padding-bottom: 5px;
 }
 
-h1::after {
+.header-container h1::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   width: 60px;
   height: 3px;
   background: linear-gradient(to right, #3498db, #2980b9);
   border-radius: 3px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+/* 새로고침 버튼 */
+#refresh-data {
+  padding: 6px 12px;
+  font-size: 13px;
+  white-space: nowrap;
 }
 
 h3 {
@@ -42,10 +70,10 @@ h3 {
   color: #2c3e50;
   font-weight: 600;
 }
-/* 
-.url-section, .action-buttons, .stats-section, .instructions {
+
+.url-section, .stats-section, .instructions {
   margin-bottom: 24px;
-} */
+}
 
 .url-input-container {
   display: flex;
@@ -64,6 +92,120 @@ h3 {
   outline: none;
   border-color: #3498db;
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.date-filter-section {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+
+.date-filter-section label {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.date-input-group {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+}
+
+.date-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.add-date-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  background: linear-gradient(to bottom, #2ecc71, #27ae60);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.add-date-btn:hover {
+  background: linear-gradient(to bottom, #27ae60, #219a52);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.add-date-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.date-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  min-height: 50px;
+  width: 100%;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.date-checkbox {
+  margin: 0;
+  cursor: pointer;
+}
+
+.delete-date-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1;
+  transition: all 0.2s;
+  margin-left: auto;
+}
+
+.delete-date-btn:hover {
+  background-color: #c0392b;
+  transform: scale(1.1);
 }
 
 button {
@@ -96,16 +238,14 @@ button:active {
 .status-message {
   font-size: 14px;
   color: #27ae60;
-  animation: fadeIn 0.3s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  margin: 8px 0;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  display: none;
 }
 
 .chart-container {
-  /* height: 250px; */
   position: relative;
   width: 100%;
   border-radius: 8px;
@@ -113,13 +253,24 @@ button:active {
   background-color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-height: 250px;
+  margin-bottom: 15px;
+}
+
+.chart-title {
+  color: #2c3e50;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 canvas#attendance-chart {
   width: 100% !important;
-  height: 100% !important;
+  height: 180px !important;
   display: block;
 }
 
@@ -214,9 +365,51 @@ tbody tr:hover {
   font-weight: 600;
 }
 
-.chart-debug {
-    margin:0;
-    padding: 0;
-    background-color: none;
-    
+.debug-log {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #666;
+  max-height: 200px;
+  overflow-y: auto;
+  font-family: monospace;
+  white-space: pre-wrap;
+  line-height: 1.4;
+}
+
+.date-filter-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.clear-dates-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  background: linear-gradient(to bottom, #e74c3c, #c0392b);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.clear-dates-btn:hover {
+  background: linear-gradient(to bottom, #c0392b, #a93226);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.clear-dates-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 } 
